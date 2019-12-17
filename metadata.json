@@ -1,0 +1,4 @@
+{
+    "image": "alenush25/combined_solution_aij:latest",
+    "entry_point": "python solution.py"
+}
