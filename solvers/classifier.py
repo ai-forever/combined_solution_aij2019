@@ -1,29 +1,29 @@
 import numpy as np
 import os
-import random
 from nltk.tokenize.toktok import ToktokTokenizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import LinearSVC
 
+from solvers.utils import AbstractSolver
 from utils import read_config, load_pickle, save_pickle
 
 
-class Solver(object):
+class Solver(AbstractSolver):
     """
     Классификатор между заданиями.
     Работает на Tfidf векторах и мультиклассовом SVM.
-    
+
     Parameters
     ----------
     seed : int, optional (default=42)
         Random seed.
     ngram_range : tuple, optional uple (min_n, max_n) (default=(1, 3))
-        Used forTfidfVectorizer. 
+        Used forTfidfVectorizer.
         he lower and upper boundary of the range of n-values for different n-grams to be extracted.
         All values of n such that min_n <= n <= max_n will be used.
     num_tasks : int, optional (default=27)
         Count of all tasks.
-        
+
     Examples
     --------
     >>> # Basic usage
@@ -51,15 +51,11 @@ class Solver(object):
 
     def __init__(self, seed=42, ngram_range=(1, 3)):
         self.seed = seed
-        self.init_seed()
+        self.init_seed(seed)
         self.ngram_range = ngram_range
         self.vectorizer = TfidfVectorizer(ngram_range=ngram_range)
         self.clf = LinearSVC(multi_class="ovr")
         self.word_tokenizer = ToktokTokenizer()
-
-    def init_seed(self):
-        np.random.seed(self.seed)
-        random.seed(self.seed)
 
     def predict(self, task):
         return self.predict_from_model(task)
