@@ -5,6 +5,7 @@ from utils import read_config
 import numpy as np
 import tqdm
 
+
 def get_matching_score(y_true, pred):
     score = 0
     if len(y_true) != len(pred):
@@ -109,6 +110,7 @@ def run_tasks(dir_path):
     return
 
 
-print(requests.get('http://localhost:8000/ready'))
+if __name__ == "__main__":
+    print(requests.get('http://localhost:8000/ready'))
 
-run_tasks('test_data')
+    run_tasks('test_data')

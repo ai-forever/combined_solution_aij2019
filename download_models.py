@@ -3,6 +3,7 @@ import shutil
 from urllib.request import urlopen
 from zipfile import ZipFile
 
+
 def download_aij_models(data_url, data_zipfile):
     to_save = os.getcwd()
     print("Downloading {} from {}".format(data_zipfile, data_url))
@@ -13,10 +14,8 @@ def download_aij_models(data_url, data_zipfile):
             to_extract.extractall(to_save)
     print("Done")
 
-def main():
+
+if __name__ == "__main__":
     data_url = "http://bit.ly/2ORHVVC"
     data_zipfile = "aij_data_models.zip"
     download_aij_models(data_url, data_zipfile)
-
-if __name__ == "__main__":
-    main()

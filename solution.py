@@ -47,7 +47,6 @@ class CuttingEdgeStrongGeneralAI(object):
         self.solvers = self.solver_loading(solver_classes)
         self.clf_fitting()
 
-
     def solver_loading(self, solver_classes):
         solvers = []
         for i, solver_class in enumerate(solver_classes):
@@ -171,9 +170,11 @@ app = Flask(__name__)
 
 ai = CuttingEdgeStrongGeneralAI()
 
+
 @app.route("/ready")
 def http_ready():
     return "OK"
+
 
 @app.route("/take_essay", methods=["POST"])
 def http_take_essay():
@@ -182,6 +183,7 @@ def http_take_essay():
     answer = ai.take_essay(request_data)
     return jsonify({"answers": answer})
 
+
 @app.route("/take_solver", methods=["POST"])
 def http_take_solver():
     """Return the string of answer"""
@@ -189,11 +191,13 @@ def http_take_solver():
     answers = ai.take_solver(request_data)
     return jsonify({"answers": answers})
 
+
 @app.route("/take_exam", methods=["POST"])
 def http_take_exam():
     request_data = request.get_json()
     answers = ai.take_exam(request_data)
     return jsonify({"answers": answers})
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
