@@ -35,6 +35,12 @@ class AbstractSolver(ABC):
     def fit(self, tasks):
         pass
 
+    def save(self, path=""):
+        pass
+
+    def load(self, path=""):
+        pass
+
 
 def fix_spaces(text):
     space_fix_pattern = re.compile("\s+")

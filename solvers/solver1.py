@@ -58,12 +58,6 @@ class Solver(AbstractSolver):
             text, task = task_text, first_phrase
         return text, task, variants
 
-    def load(self, path=""):
-        pass
-
-    def save(self, path=""):
-        pass
-
     def predict_from_model(self, task):
         text, task, variants = self.process_task(task)
         result = self.compare_text_with_variants(variants)
