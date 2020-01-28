@@ -1,25 +1,21 @@
 # nice
 
 import pandas as pd
-import random
 import re
 from nltk.tokenize import ToktokTokenizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from solvers.utils import BertEmbedder, morph
+from solvers.utils import BertEmbedder, morph, AbstractSolver
 
 
-class Solver(object):
+class Solver(AbstractSolver):
     def __init__(self, seed=42):
         self.seed = seed
-        self.init_seed()
+        self.init_seed(seed)
         self.morph = morph
         self.toktok = ToktokTokenizer()
         self.bert = BertEmbedder()
         self.is_loaded = True
-
-    def init_seed(self):
-        random.seed(self.seed)
 
     def get_num(self, text):
         lemmas = [
@@ -61,9 +57,6 @@ class Solver(object):
         elif "Укажите" in first_phrase:
             text, task = task_text, first_phrase
         return text, task, variants
-
-    def fit(self, tasks):
-        pass
 
     def load(self, path=""):
         pass
