@@ -71,24 +71,24 @@ class Solver(AbstractSolver):
                         raise
                     w = word.replace('..', char)
                     # Ы:
-                    # После русских приставок, оканчивающихся на согласную, кроме МЕЖ И СВЕРХ .
-                    # Например: безынтересный, подыграть, разыскивать.
+                    # after russian prefixes ending with consonant, except for МЕЖ И СВЕРХ .
+                    # examples: безынтересный, подыграть, разыскивать.
                     for pref in self.common_data.prefixes:
                         if len(pref) == slot_ind:
-                            if self.common_data.prefixes[pref] == 'ru' and pref[-1] not in self.vowels and pref not in [
-                                'меж',
-                                'сверх']:
+                            if self.common_data.prefixes[pref] == 'ru' and pref[-1] not in self.vowels and pref not \
+                                    in ['меж', 'сверх']:
                                 if w.startswith(pref) and len(w) >= len(pref) + 2:
                                     if char == 'ы' and morph.word_is_known('и' + w[slot_ind + 1:]):
                                         print('======1', word, w, char)
                                         res.add(char)
                     # И:
-                    # -после русских приставок, оканчивающихся на гласную (поиграть, поискать)
-                    # -после приставок МЕЖ- и СВЕРХ- (сверхинтересный, межинститутский)
-                    # -в слове ВЗИМАТЬ
-                    # -в сложносокращенных словах (пединститут, спортинвентарь)
-                    # -после иноязычных приставок и частиц (пан-, суб-, транс-, контр- и т.п.) (панисламизм, субинспектор, трансиордания, контригра)
-                    # -после числительных двух-, трех-, четырех- (двухигольный, трехимпульсный)
+                    # after russian prefixes ending with vowel (поиграть, поискать)
+                    # after prefixes МЕЖ- and СВЕРХ- (сверхинтересный, межинститутский)
+                    # in word ВЗИМАТЬ
+                    # in compositional words (пединститут, спортинвентарь)
+                    # after borrowed prefixes (пан-, суб-, транс-, контр- etc.)
+                    #           (панисламизм, субинспектор, трансиордания, контригра)
+                    # after numerals двух-, трех-, четырех- (двухигольный, трехимпульсный)
 
                     for pref in self.common_data.prefixes:
                         if len(pref) == slot_ind:
@@ -107,10 +107,10 @@ class Solver(AbstractSolver):
                                     print('======', word, w, char)
                                     res.add(char)
 
-                    # Твердый знак Ъ пишется:
-                    # -после приставок, оканчивающихся на согласную перед Е, Ё, Ю, Я. (Подъем, разъезд.)
-                    # -после числительных двух- трех-, четырех-, перед Е, Ё, Ю, Я. (Трехъярусный)
-                    # -после иностранных приставок, которые в русском языке не выделяются как приставки. (объем, адъютант и т.д.)
+                    # letter Ъ is placed:
+                    # after russian prefixes ending with consonant, before letters Е, Ё, Ю, Я. (Подъем, разъезд.)
+                    # after numerals двух- трех-, четырех-, перед Е, Ё, Ю, Я. (Трехъярусный)
+                    # after borrowed prefixes, which are not considered as prefixed in Russian. (объем, адъютант и т.д.)
 
                     for pref in self.common_data.prefixes:
                         if len(pref) == slot_ind:
@@ -123,8 +123,8 @@ class Solver(AbstractSolver):
                     for pref in ['двух', 'трех', 'трёх', 'четырех', 'четырёх']:
                         if len(pref) == slot_ind:
                             if w.startswith(pref) and len(w) >= len(pref) + 2:
-                                if w[len(pref) + 1] in 'еёюя' and char == 'ъ' or w[
-                                    len(pref) + 1] not in self.vowels and char == 'и':
+                                if w[len(pref) + 1] in 'еёюя' and char == 'ъ' or \
+                                        w[len(pref) + 1] not in self.vowels and char == 'и':
                                     print('======', word, w, char)
                                     res.add(char)
 
