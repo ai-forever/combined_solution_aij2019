@@ -3,23 +3,20 @@
 
 import joblib
 import os
-import random
 import re
 from collections import defaultdict
+
 from nltk.corpus import stopwords
 from sklearn import linear_model
 from sklearn import pipeline
 from sklearn.metrics import *
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
-from solvers.solver_helpers import morph
+from solvers.solver_helpers import morph, AbstractSolver
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed()
-        self.is_loaded = False
+class Solver(AbstractSolver):
+    def __init__(self):
         self.possible_mark_choices = set()
         self.russian_stopwords = stopwords.words("russian")
         self.morph = morph
@@ -45,9 +42,6 @@ class Solver(object):
         joblib.dump(self.clf_desc, os.path.join(path, "clf_desc.joblib"))
         joblib.dump(self.clf_discource, os.path.join(path, "clf_discource.joblib"))
         joblib.dump(self.clf_cause, os.path.join(path, "clf_cause.joblib"))
-
-    def init_seed(self):
-        return random.seed(self.seed)
 
     def parse_task(self, task):
         assert task["question"]["type"] == "multiple_choice"
