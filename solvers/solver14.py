@@ -1,8 +1,8 @@
 # lamoda
 
-import random
 import numpy as np
-from solvers.utils import NgramManager, morph
+
+from solvers.solver_helpers import NgramManager, morph, AbstractSolver
 
 
 def parse_sentence(e):
@@ -45,16 +45,10 @@ def parse_sentence(e):
     return arr, s
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed()
+class Solver(AbstractSolver):
+    def __init__(self):
         self.morph = morph
         self.ngram_manager = NgramManager()
-        self.is_loaded = True
-
-    def init_seed(self):
-        return random.seed(self.seed)
 
     def get_freq(self, t):
         return self.ngram_manager.gram_freq[tuple([self.ngram_manager.word2num.get(e, -1) for e in t])]
@@ -179,12 +173,3 @@ class Solver(object):
 
         pred = sorted(final_scores.items(), key=lambda x: -x[1])[0][0]
         return pred
-
-    def fit(self, tasks):
-        pass
-
-    def load(self, path=""):
-        pass
-
-    def save(self, path=""):
-        pass

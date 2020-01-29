@@ -1,26 +1,13 @@
-import random
 import re
 
-from solvers.utils import RubertForMasking, morph
+from solvers.solver_helpers import RubertForMasking, morph, AbstractSolver
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed()
+class Solver(AbstractSolver):
+    def __init__(self):
         self.morph = morph
         self.known_words = []
         self.model = RubertForMasking()
-        self.is_loaded = False
-
-    def init_seed(self):
-        return random.seed(self.seed)
-
-    def fit(self, tasks):
-        pass
-
-    def save(self, path=""):
-        pass
 
     def load(self, filename_path="data/models/solvers/solver15/dic_known_word.csv"):
         with open(filename_path, encoding="utf-8") as f:

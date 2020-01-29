@@ -2,11 +2,10 @@
 
 import json
 import os
-import random
 import re
 from collections import defaultdict, Counter
 
-from solvers.utils import morph, CommonData, ALPHABET
+from solvers.solver_helpers import morph, CommonData, ALPHABET, AbstractSolver
 
 
 def clean_with_slot(word):
@@ -17,20 +16,14 @@ def clean(word):
     return " ".join(re.sub("[^а-яё ]+", " ", word.lower()).split())
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.is_loaded = False
+class Solver(AbstractSolver):
+    def __init__(self):
         self.common_data = CommonData()
         self.morph = morph
-        self.seed = seed
-        self.init_seed()
         self.alphabet = ALPHABET
         self.vowels = "уеыаоэёяию"
         self.accents_dict = defaultdict(set)
         self.solutions = {}
-
-    def init_seed(self):
-        return random.seed(self.seed)
 
     def predict_from_model(self, task):
         def _find_chars(word, d, char_from_text=None, w0=''):
@@ -78,27 +71,29 @@ class Solver(object):
                         raise
                     w = word.replace('..', char)
                     # Ы:
-                    # После русских приставок, оканчивающихся на согласную, кроме МЕЖ И СВЕРХ .
-                    # Например: безынтересный, подыграть, разыскивать.
+                    # after russian prefixes ending with consonant, except for МЕЖ И СВЕРХ .
+                    # examples: безынтересный, подыграть, разыскивать.
                     for pref in self.common_data.prefixes:
                         if len(pref) == slot_ind:
-                            if self.common_data.prefixes[pref] == 'ru' and pref[-1] not in self.vowels and pref not in ['меж',
-                                                                                                            'сверх']:
+                            if self.common_data.prefixes[pref] == 'ru' and pref[-1] not in self.vowels and pref not \
+                                    in ['меж', 'сверх']:
                                 if w.startswith(pref) and len(w) >= len(pref) + 2:
                                     if char == 'ы' and morph.word_is_known('и' + w[slot_ind + 1:]):
                                         print('======1', word, w, char)
                                         res.add(char)
                     # И:
-                    # -после русских приставок, оканчивающихся на гласную (поиграть, поискать)
-                    # -после приставок МЕЖ- и СВЕРХ- (сверхинтересный, межинститутский)
-                    # -в слове ВЗИМАТЬ
-                    # -в сложносокращенных словах (пединститут, спортинвентарь)
-                    # -после иноязычных приставок и частиц (пан-, суб-, транс-, контр- и т.п.) (панисламизм, субинспектор, трансиордания, контригра)
-                    # -после числительных двух-, трех-, четырех- (двухигольный, трехимпульсный)
+                    # after russian prefixes ending with vowel (поиграть, поискать)
+                    # after prefixes МЕЖ- and СВЕРХ- (сверхинтересный, межинститутский)
+                    # in word ВЗИМАТЬ
+                    # in compositional words (пединститут, спортинвентарь)
+                    # after borrowed prefixes (пан-, суб-, транс-, контр- etc.)
+                    #           (панисламизм, субинспектор, трансиордания, контригра)
+                    # after numerals двух-, трех-, четырех- (двухигольный, трехимпульсный)
 
                     for pref in self.common_data.prefixes:
                         if len(pref) == slot_ind:
-                            if self.common_data.prefixes[pref] == 'ru' and pref[-1] in self.vowels or self.common_data.prefixes[pref] != 'ru':
+                            if self.common_data.prefixes[pref] == 'ru' and pref[-1] in self.vowels or \
+                                    self.common_data.prefixes[pref] != 'ru':
                                 if w.startswith(pref) and len(w) >= len(pref) + 2:
                                     if w[len(pref) + 1] not in self.vowels and char == 'и' and morph.word_is_known(
                                             w[slot_ind:]):
@@ -112,10 +107,10 @@ class Solver(object):
                                     print('======', word, w, char)
                                     res.add(char)
 
-                    # Твердый знак Ъ пишется:
-                    # -после приставок, оканчивающихся на согласную перед Е, Ё, Ю, Я. (Подъем, разъезд.)
-                    # -после числительных двух- трех-, четырех-, перед Е, Ё, Ю, Я. (Трехъярусный)
-                    # -после иностранных приставок, которые в русском языке не выделяются как приставки. (объем, адъютант и т.д.)
+                    # letter Ъ is placed:
+                    # after russian prefixes ending with consonant, before letters Е, Ё, Ю, Я. (Подъем, разъезд.)
+                    # after numerals двух- трех-, четырех-, перед Е, Ё, Ю, Я. (Трехъярусный)
+                    # after borrowed prefixes, which are not considered as prefixed in Russian. (объем, адъютант и т.д.)
 
                     for pref in self.common_data.prefixes:
                         if len(pref) == slot_ind:
@@ -128,8 +123,8 @@ class Solver(object):
                     for pref in ['двух', 'трех', 'трёх', 'четырех', 'четырёх']:
                         if len(pref) == slot_ind:
                             if w.startswith(pref) and len(w) >= len(pref) + 2:
-                                if w[len(pref) + 1] in 'еёюя' and char == 'ъ' or w[
-                                    len(pref) + 1] not in self.vowels and char == 'и':
+                                if w[len(pref) + 1] in 'еёюя' and char == 'ъ' or \
+                                        w[len(pref) + 1] not in self.vowels and char == 'и':
                                     print('======', word, w, char)
                                     res.add(char)
 
@@ -209,9 +204,6 @@ class Solver(object):
 
             return sorted([e[0] for e in sorted(score.items(), key=lambda x: (-x[1][0], x[0])) if e[1][0] == max_v])
 
-    def fit(self, tasks):
-        pass
-
     def load(self, path="data/models/solvers/solver11"):
         self.filenames = [os.path.join(path, f"solver1{i}.json") for i in range(3)]
         for filename in self.filenames:
@@ -228,12 +220,9 @@ class Solver(object):
                     ww = word.lower().replace("ё", "е")
                     if ww not in self.solutions:
                         if (
-                            ww.startswith(arr[0])
-                            and ww[len(arr[0])] == self.solutions[w0]
+                                ww.startswith(arr[0])
+                                and ww[len(arr[0])] == self.solutions[w0]
                         ):
-                            ww = ww[: len(arr[0])] + ".." + ww[len(arr[0]) + 1 :]
+                            ww = ww[: len(arr[0])] + ".." + ww[len(arr[0]) + 1:]
                             self.solutions[ww] = self.solutions[w0]
         self.is_loaded = True
-
-    def save(self, path=""):
-        pass

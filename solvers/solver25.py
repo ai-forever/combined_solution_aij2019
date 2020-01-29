@@ -4,23 +4,14 @@ import os
 import random
 import re
 
-from solvers.utils import morph
+from solvers.solver_helpers import morph, AbstractSolver
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed()
+class Solver(AbstractSolver):
+    def __init__(self):
         self.morph = morph
-        self.is_loaded = False
         self.word_dictionary = {}
         self.synonyms = None
-
-    def init_seed(self):
-        random.seed(self.seed)
-
-    def fit(self, tasks):
-        pass
 
     def load(self, path="data/models/solvers/solver25"):
         with open(os.path.join(path, "words.csv"), encoding="utf-8") as f:
@@ -36,9 +27,6 @@ class Solver(object):
             if len(t) > 5
         ]
         self.is_loaded = True
-
-    def save(self, path="data/models/solvers/solver25"):
-        pass
 
     def predict_from_model(self, task):
         words = (

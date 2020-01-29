@@ -1,20 +1,13 @@
 # lamoda
 
-import random
 import re
 
-from solvers.utils import Word2vecProcessor, tokenize, clean
+from solvers.solver_helpers import Word2vecProcessor, tokenize, clean, AbstractSolver
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed()
+class Solver(AbstractSolver):
+    def __init__(self):
         self.w2v = Word2vecProcessor()
-        self.is_loaded = True
-
-    def init_seed(self):
-        random.seed(self.seed)
 
     def predict_from_model(self, task):
         try:
@@ -126,12 +119,3 @@ class Solver(object):
     def sent_split(self, text):
         reg = r"\(\n*\d+\n*\)"
         return re.split(reg, text)
-
-    def fit(self, tasks):
-        pass
-
-    def load(self, path=""):
-        pass
-
-    def save(self, path=""):
-        pass

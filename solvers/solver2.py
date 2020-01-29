@@ -1,23 +1,16 @@
 # niw
 
-import random
 import re
 from nltk.tokenize import sent_tokenize
 from string import punctuation
 
-from solvers.utils import RubertForMasking
+from solvers.solver_helpers import RubertForMasking, AbstractSolver
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed()
+class Solver(AbstractSolver):
+    def __init__(self):
         self.dictionary_words = {}
         self.rubert = RubertForMasking()
-        self.is_loaded = False
-
-    def init_seed(self):
-        random.seed(self.seed)
 
     @staticmethod
     def get_sentence_pair(text):
@@ -225,15 +218,9 @@ class Solver(object):
                 result = result2
         return result.strip(punctuation)
 
-    def fit(self, tasks):
-        pass
-
     def load(self, path="data/models/solvers/solver2/words.csv"):
         with open(path, encoding="utf-8") as f:
             for line in f:
                 line = line.replace("\n", "").split("|")
                 self.dictionary_words[line[0]] = line[1]
         self.is_loaded = True
-
-    def save(self, path=""):
-        pass

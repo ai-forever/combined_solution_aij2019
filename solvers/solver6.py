@@ -1,27 +1,22 @@
 # Idyllium
 
-import nltk
 import os
-import random
 import re
+
+import nltk
 from nltk.util import ngrams
 from sklearn.metrics.pairwise import cosine_similarity
 from string import punctuation
 
-from solvers.utils import morph, BertEmbedder
+from solvers.solver_helpers import morph, BertEmbedder, AbstractSolver
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed()
+class Solver(AbstractSolver):
+    def __init__(self):
         self.morph = morph
         self.bert = BertEmbedder()
         self.task_mode = 1
-        self.is_loaded = False
-
-    def init_seed(self):
-        return random.seed(self.seed)
+        self.tautologisms = None
 
     def exclude_word(self, task_sent):
         tokens = [
@@ -60,16 +55,10 @@ class Solver(object):
         else:
             return results[-1][1], tokens
 
-    def fit(self, tasks):
-        pass
-
     def load(self, path="data/models/solvers/solver6"):
         with open(os.path.join(path, "tautologisms.txt"), "r") as f:
             self.tautologisms = f.read().splitlines()
         self.is_loaded = True
-
-    def save(self, path=""):
-        pass
 
     def predict_from_model(self, task):
         description = task["text"]

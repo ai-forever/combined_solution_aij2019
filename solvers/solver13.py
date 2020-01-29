@@ -1,12 +1,14 @@
-import numpy as np
+
 import os
 import random
-import razdel
 import re
+
+import numpy as np
+import razdel
 import torch
 
-from solvers.torch_utils import RubertFor13
-from solvers.utils import morph
+from solvers.torch_helpers import RubertFor13
+from solvers.solver_helpers import morph, AbstractSolver
 
 
 class Together(Exception):
@@ -39,16 +41,10 @@ replaces = {
 pattern = re.compile("\((не|ни)\)")
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.is_loaded = False
+class Solver(AbstractSolver):
+    def __init__(self):
         self.rubert = None
         self.words = None
-        self.seed = seed
-        self.init_seed()
-
-    def init_seed(self):
-        return random.seed(self.seed)
 
     def prepare(self, sentence):
         tokens = [
@@ -105,12 +101,6 @@ class Solver(object):
                 Y += y
         return X, Y
 
-    def fit(self, path=""):
-        pass
-
-    def save(self, path=""):
-        pass
-
     def load(self, path="data/models/solvers/solver13"):
         self.rubert = RubertFor13()
         self.rubert.load_state_dict(torch.load(os.path.join(path, "solver13.config")))
@@ -119,6 +109,7 @@ class Solver(object):
             self.words = set(
                 word.strip().lower().replace("ё", "е") for word in f.readlines()
             )
+        self.is_loaded = True
 
     def predict_from_model(self, task):
         candidates = {}

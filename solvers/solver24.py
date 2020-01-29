@@ -1,30 +1,26 @@
 # lamoda
 
-
-import json
-import numpy as np
 import os
-import pandas as pd
-import pickle
 import random
 import re
+
+import numpy as np
+import pandas as pd
 from nltk.tokenize import ToktokTokenizer
 from pymystem3 import Mystem
 from sklearn.metrics.pairwise import cosine_distances
 from string import punctuation
 
 from utils import load_pickle
-from solvers.utils import Word2vecProcessor, morph, singleton
+from solvers.solver_helpers import Word2vecProcessor, morph, singleton, AbstractSolver
 
 
-class Solver(object):
-    def __init__(self, seed=42):
+class Solver(AbstractSolver):
+    def __init__(self):
         self.morph = morph
         self.mystem = Mystem()
         self.tokenizer = ToktokTokenizer()
         self.w2v = Word2vecProcessor()
-        self.seed = seed
-        self.init_seed()
         self.synonyms = None
         self.antonyms = None
         self.phraseology = None
@@ -34,10 +30,6 @@ class Solver(object):
         self.verbs_dict = None
         self.chasti_rechi = None
         self.set_f_2 = None
-        self.is_loaded = False
-
-    def init_seed(self):
-        random.seed(self.seed)
 
     def lemmatize(self, text):
         return [
@@ -82,9 +74,6 @@ class Solver(object):
                 return "".join(l)
         return ""
 
-    def fit(self, tasks):
-        pass
-
     @singleton
     def load(self, path="data/models/solvers/solver24"):
         self.synonyms = open(
@@ -118,9 +107,6 @@ class Solver(object):
             os.path.join(path, "solver24.pkl")
         )
         self.is_loaded = True
-
-    def save(self, path="data/models/solvers/solver24"):
-        pass
 
     @staticmethod
     def parse_task(task):

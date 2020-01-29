@@ -5,22 +5,18 @@ import numpy as np
 import os
 import pandas as pd
 import pickle
-import random
 import re
 from collections import defaultdict
 
-from solvers.utils import NgramManager, morph, Word2vecProcessor, CommonData, ALPHABET
+from solvers.solver_helpers import NgramManager, morph, Word2vecProcessor, CommonData, ALPHABET, AbstractSolver
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed()
+class Solver(AbstractSolver):
+    def __init__(self):
         self.morph = morph
         self.ngram_manager = NgramManager()
         self.w2v = Word2vecProcessor()
         self.common_data = CommonData()
-        self.is_loaded = False
         self.suffixes = {}
         self.paronyms = defaultdict(list)
         self.word2root = {}
@@ -28,9 +24,6 @@ class Solver(object):
         self.scaler = None
         self.lr = None
         self.alphabet = ALPHABET
-
-    def init_seed(self):
-        random.seed(self.seed)
 
     def predict_from_model(self, task):
         words = get_words(task)
@@ -47,9 +40,6 @@ class Solver(object):
         df["pred"] = self.lr.predict_proba(x)[:, 1]
         ind = np.argsort(self.lr.predict_proba(x)[:, 1])[-1]
         return rows[ind][3]
-
-    def fit(self, tasks):
-        pass
 
     def load(self, path="data/models/solvers/solver5"):
 
@@ -94,9 +84,6 @@ class Solver(object):
             self.root2word[root].append(k.lower())
 
         self.is_loaded = True
-
-    def save(self, path=""):
-        pass
 
     def get_freq(self, t):
         return self.ngram_manager.gram_freq[

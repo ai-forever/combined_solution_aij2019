@@ -4,16 +4,10 @@ import json
 import random
 import re
 
+from solvers.solver_helpers import AbstractSolver
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed()
-        self.is_loaded = False
 
-    def init_seed(self):
-        random.seed(self.seed)
-
+class Solver(AbstractSolver):
     def get_prediction(self, variants):
         predictions = []
         for variant in variants:
@@ -47,16 +41,10 @@ class Solver(object):
             result = random.choice(result)
         return result.lower().strip()
 
-    def fit(self, tasks):
-        pass
-
     def load(self, path="data/models/solvers/solver4/accents.json"):
         with open(path, "r", encoding="utf-8") as f:
             self.accents = json.load(f)
         self.is_loaded = True
-
-    def save(self, path=""):
-        pass
 
     def get_variants(self, task):
         task_text = re.split(r"\n", task["text"])[1:]

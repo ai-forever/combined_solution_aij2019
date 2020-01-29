@@ -2,16 +2,16 @@
 
 
 import attr
-import numpy as np
-import random
 import re
+
+import numpy as np
 import torch
 from nltk.tokenize import sent_tokenize
 from string import punctuation
 from torch.utils.data import DataLoader
 from transformers.optimization import AdamW, WarmupLinearSchedule
 
-from solvers.torch_utils import (
+from solvers.torch_helpers import (
     ModelTrainer,
     BertExample,
     Field,
@@ -23,7 +23,7 @@ from solvers.torch_utils import (
     load_bert,
     load_bert_tokenizer,
 )
-from solvers.utils import singleton
+from solvers.solver_helpers import singleton, AbstractSolver
 from utils import read_config
 
 
@@ -103,13 +103,10 @@ class ClassifierTrainer(ModelTrainer):
         return outputs["loss"], info
 
 
-class Solver(object):
+class Solver(AbstractSolver):
     def __init__(
-        self, seed=42, model_config="data/models/solvers/solver26/solver26.json"
+        self, model_config="data/models/solvers/solver26/solver26.json"
     ):
-        self.seed = seed
-        self.init_seed()
-        self.is_loaded = False
         self.model_config = model_config
         self.config = read_config(self.model_config)
         self.unified_substrings = self.config["unified_substrings"]
@@ -120,9 +117,6 @@ class Solver(object):
         self._tokenizer = load_bert_tokenizer("data/models/bert/rubert/qbic")
         self._device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self._batch_collector = _get_batch_collector(self._device, is_train=False)
-
-    def init_seed(self):
-        return random.seed(self.seed)
 
     def predict_from_model(self, task):
         decisions, phrases = dict(), self.extract_phrases(task)

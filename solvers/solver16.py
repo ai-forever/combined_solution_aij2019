@@ -1,30 +1,23 @@
 # mihtw
 
 import joblib
-import numpy as np
-from solvers.utils import morph
-import random
 import re
+
+import numpy as np
 from catboost import CatBoostClassifier
 from nltk.tokenize.toktok import ToktokTokenizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 
-from solvers.utils import standardize_task
+from solvers.solver_helpers import morph, standardize_task, AbstractSolver
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed()
-        self.is_loaded = False
+class Solver(AbstractSolver):
+    def __init__(self):
         self.tokenizer = ToktokTokenizer()
         self.morph = morph
         self.count_vectorizer = CountVectorizer(ngram_range=(1, 4), tokenizer=str.split)
         self.classifier = CatBoostClassifier(verbose=0, use_best_model=True)
-
-    def init_seed(self):
-        return random.seed(self.seed)
 
     def strs_to_pos_tags(self, texts):
         result = []

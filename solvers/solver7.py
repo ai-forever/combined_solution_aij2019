@@ -3,26 +3,18 @@
 import json
 import numpy as np
 import os
-import random
-from collections import defaultdict
 
-from solvers.utils import NgramManager, CommonData, morph, ALPHABET
+from solvers.solver_helpers import NgramManager, CommonData, morph, ALPHABET, AbstractSolver
 
 
-class Solver(object):
-    def __init__(self, seed=42):
+class Solver(AbstractSolver):
+    def __init__(self):
         self.alphabet = ALPHABET
         self.ngram_manager = NgramManager()
         self.common_data = CommonData()
         self.morph = morph
-        self.is_loaded = False
-        self.seed = seed
-        self.init_seed()
         self.solutions = {}
         self.from_tasks = {}
-
-    def init_seed(self):
-        random.seed(self.seed)
 
     def get_neighbours(self, word):
         res = []
@@ -111,9 +103,6 @@ class Solver(object):
             return prediction, row
         return prediction
 
-    def fit(self, tasks):
-        pass
-
     def load(self, path="data/models/solvers/solver7"):
         with open(os.path.join(path, "solver7.json"), "r", encoding="utf-8") as f:
             self.solutions = {k.strip(): v for k, v in json.load(f).items()}
@@ -126,9 +115,6 @@ class Solver(object):
                 else:
                     self.from_tasks[array[0]] = array[1]
         self.is_loaded = True
-
-    def save(self, path=""):
-        pass
 
     def get_freq(self, t):
         return self.ngram_manager.gram_freq[tuple([self.ngram_manager.word2num.get(e, -1) for e in t])]

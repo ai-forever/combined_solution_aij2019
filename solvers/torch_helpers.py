@@ -10,7 +10,7 @@ from collections import OrderedDict
 from operator import attrgetter
 from transformers import BertModel, BertTokenizer, BertConfig, BertForMaskedLM
 
-from solvers.utils import fix_spaces
+from solvers.solver_helpers import fix_spaces
 
 logger = logging.getLogger(__name__)
 

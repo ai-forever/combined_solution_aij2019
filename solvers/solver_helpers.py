@@ -1,4 +1,6 @@
 import json
+from abc import ABC, abstractmethod
+
 import numpy as np
 import os
 import re
@@ -13,6 +15,26 @@ from scipy.spatial.distance import cosine
 
 morph = MorphAnalyzer()
 ALPHABET = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+
+
+class AbstractSolver(ABC):
+    is_loaded = False
+
+    def predict(self, task):
+        return sorted(str(ch["id"]) for ch in self.predict_from_model(task))
+
+    @abstractmethod
+    def predict_from_model(self, task):
+        pass
+
+    def fit(self, tasks):
+        pass
+
+    def save(self, path=""):
+        pass
+
+    def load(self, path=""):
+        self.is_loaded = True
 
 
 def fix_spaces(text):
