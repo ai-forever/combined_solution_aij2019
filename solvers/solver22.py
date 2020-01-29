@@ -1,16 +1,18 @@
 # exotol
 
 import joblib
+import re
+
 import numpy as np
 import pandas as pd
-import random
-import re
 import scipy
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.svm import SVC
 from string import punctuation
+
+from solvers.solver_helpers import AbstractSolver
 
 
 def clean(text, remove_stop_words=True):
@@ -30,18 +32,12 @@ def clean(text, remove_stop_words=True):
     return text
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed()
+class Solver(AbstractSolver):
+    def __init__(self):
         self.clf = SVC(kernel="linear", probability=True)
         self.count_vec = CountVectorizer(
             analyzer="word", token_pattern=r"\w{1,}", ngram_range=(1, 3)
         )
-        self.is_loaded = False
-
-    def init_seed(self):
-        random.seed(self.seed)
 
     def transform_vec(self, train, test=None, type_transform="count_vec"):
         if type_transform == "count_vec":
