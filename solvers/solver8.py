@@ -128,7 +128,6 @@ class ClassifierTrainer(ModelTrainer):
 
 class Solver(AbstractSolver):
     def __init__(self, bert_path="data/models/bert/rubert/qbic"):
-        self.is_loaded = False
         self.bert_path = bert_path
         self._model = RubertMulticlassClassifier(
             init_bert(self.bert_path),
