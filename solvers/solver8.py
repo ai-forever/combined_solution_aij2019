@@ -22,7 +22,7 @@ from solvers.torch_helpers import (
     load_bert,
     load_bert_tokenizer,
 )
-from solvers.solver_helpers import fix_spaces
+from solvers.solver_helpers import fix_spaces, AbstractSolver
 
 _ERRORS = [
     "деепричастный оборот",
@@ -126,8 +126,8 @@ class ClassifierTrainer(ModelTrainer):
         return outputs["loss"], info
 
 
-class Solver(object):
-    def __init__(self, seed=42, bert_path="data/models/bert/rubert/qbic"):
+class Solver(AbstractSolver):
+    def __init__(self, bert_path="data/models/bert/rubert/qbic"):
         self.is_loaded = False
         self.bert_path = bert_path
         self._model = RubertMulticlassClassifier(
@@ -137,14 +137,9 @@ class Solver(object):
         )
         self._tokenizer = load_bert_tokenizer(self.bert_path)
         self.morph = pymorphy2.MorphAnalyzer()
-        self.seed = seed
-        self.init_seed()
         use_cuda = torch.cuda.is_available()
         self._device = torch.device("cuda:0" if use_cuda else "cpu")
         self._batch_collector = _get_batch_collector(self._device, is_train=False)
-
-    def init_seed(self):
-        return random.seed(self.seed)
 
     def normalize_category(self, cond):
         condition = cond["text"].lower().strip(punctuation)
