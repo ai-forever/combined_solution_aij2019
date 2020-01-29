@@ -6,9 +6,7 @@ from solvers.solver_helpers import Word2vecProcessor, tokenize, clean, AbstractS
 
 
 class Solver(AbstractSolver):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed(seed)
+    def __init__(self):
         self.w2v = Word2vecProcessor()
         self.is_loaded = True
 
