@@ -13,7 +13,6 @@ class Solver(AbstractSolver):
         self.morph = morph
         self.toktok = ToktokTokenizer()
         self.bert = BertEmbedder()
-        self.is_loaded = True
 
     def get_num(self, text):
         lemmas = [

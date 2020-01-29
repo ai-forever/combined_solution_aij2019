@@ -50,6 +50,7 @@ class Solver(AbstractSolver):
         self.vectorizer = TfidfVectorizer(ngram_range=ngram_range)
         self.clf = LinearSVC(multi_class="ovr")
         self.word_tokenizer = ToktokTokenizer()
+        self.is_loaded = True
 
     def predict(self, task):
         return self.predict_from_model(task)
