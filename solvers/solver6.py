@@ -1,8 +1,9 @@
 # Idyllium
 
-import nltk
 import os
 import re
+
+import nltk
 from nltk.util import ngrams
 from sklearn.metrics.pairwise import cosine_similarity
 from string import punctuation
@@ -11,13 +12,10 @@ from solvers.solver_helpers import morph, BertEmbedder, AbstractSolver
 
 
 class Solver(AbstractSolver):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed(seed)
+    def __init__(self):
         self.morph = morph
         self.bert = BertEmbedder()
         self.task_mode = 1
-        self.is_loaded = False
         self.tautologisms = None
 
     def exclude_word(self, task_sent):
