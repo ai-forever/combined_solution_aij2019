@@ -1,5 +1,4 @@
 import json
-import random
 from abc import ABC, abstractmethod
 
 import numpy as np
@@ -25,12 +24,6 @@ class AbstractSolver(ABC):
     @abstractmethod
     def predict_from_model(self, task):
         pass
-
-    @staticmethod
-    def init_seed(seed):
-        random.seed(seed)
-        torch.random.manual_seed(seed)
-        np.random.seed(seed)
 
     def fit(self, tasks):
         pass

@@ -49,9 +49,7 @@ class Solver(AbstractSolver):
     >>> clf.load("clf.pickle")
     """
 
-    def __init__(self, seed=42, ngram_range=(1, 3)):
-        self.seed = seed
-        self.init_seed(seed)
+    def __init__(self, ngram_range=(1, 3)):
         self.ngram_range = ngram_range
         self.vectorizer = TfidfVectorizer(ngram_range=ngram_range)
         self.clf = LinearSVC(multi_class="ovr")
