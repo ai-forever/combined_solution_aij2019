@@ -5,23 +5,17 @@ import os
 import random
 import re
 
-from solvers.solver_helpers import standardize_task
+from solvers.solver_helpers import standardize_task, AbstractSolver
 from utils import read_config, save_config
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed()
-        self.is_loaded = False
+class Solver(AbstractSolver):
+    def __init__(self):
         self.known_examples = None
         self.rules = None
         self.exceptions = None
         self.prefixes = None
         self.endings = None
-
-    def init_seed(self):
-        return random.seed(self.seed)
 
     def predict_from_model(self, task):
         task = standardize_task(task)
