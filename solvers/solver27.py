@@ -2,13 +2,12 @@
 
 import re
 
-from solvers.solver_helpers import morph
+from solvers.solver_helpers import morph, AbstractSolver
 from utils import read_config
 
 
-class Solver(object):
+class Solver(AbstractSolver):
     def __init__(self, config_path="data/models/solvers/solver27/solver27.json"):
-        self.is_loaded = True
         self.morph = morph
         self.config = read_config(config_path)
         self.theme2keywords = self.config["theme2keywords"]
@@ -176,12 +175,3 @@ class Solver(object):
         essay.append(self.patterns["arguments"][1] + f"{self.arguments[theme][1]}")
         essay.append(self.conclusion[theme])
         return "\n\t".join(essay).strip()
-
-    def load(self, path=""):
-        pass
-
-    def save(self, path=""):
-        pass
-
-    def fit(self, path=""):
-        pass
