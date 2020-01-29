@@ -10,19 +10,15 @@ from utils import read_config, load_pickle, save_pickle
 
 class Solver(AbstractSolver):
     """
-    Классификатор между заданиями.
-    Работает на Tfidf векторах и мультиклассовом SVM.
+    Task Classifier.
+    It uses TF-IDF vectors and multi-class SVM.
 
     Parameters
     ----------
-    seed : int, optional (default=42)
-        Random seed.
     ngram_range : tuple, optional uple (min_n, max_n) (default=(1, 3))
         Used forTfidfVectorizer.
         he lower and upper boundary of the range of n-values for different n-grams to be extracted.
         All values of n such that min_n <= n <= max_n will be used.
-    num_tasks : int, optional (default=27)
-        Count of all tasks.
 
     Examples
     --------
