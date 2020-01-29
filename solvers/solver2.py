@@ -8,12 +8,9 @@ from solvers.solver_helpers import RubertForMasking, AbstractSolver
 
 
 class Solver(AbstractSolver):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed(seed)
+    def __init__(self):
         self.dictionary_words = {}
         self.rubert = RubertForMasking()
-        self.is_loaded = False
 
     @staticmethod
     def get_sentence_pair(text):
