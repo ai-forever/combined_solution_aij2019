@@ -1,13 +1,13 @@
 # qbic
 
 import attr
-import numpy as np
 import random
 import re
+
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from functools import wraps
 from torch.utils.data import DataLoader
 from transformers.optimization import AdamW, WarmupLinearSchedule
 
@@ -20,7 +20,7 @@ from solvers.torch_helpers import (
     load_bert,
     load_bert_tokenizer,
 )
-from solvers.solver_helpers import fix_spaces, singleton
+from solvers.solver_helpers import fix_spaces, singleton, AbstractSolver
 
 
 @attr.s(frozen=True)
@@ -131,11 +131,8 @@ class ClassifierTrainer(ModelTrainer):
         return outputs["loss"], info
 
 
-class Solver(object):
-    def __init__(self, seed=42, bert_path="data/models/bert/rubert/qbic"):
-        self.seed = seed
-        self.init_seed()
-        self.is_loaded = False
+class Solver(AbstractSolver):
+    def __init__(self, bert_path="data/models/bert/rubert/qbic"):
         self.bert_path = bert_path
         self._tokenizer = load_bert_tokenizer(self.bert_path)
         self._device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -143,9 +140,6 @@ class Solver(object):
         self._model = RubertClassifier(init_bert(self.bert_path), output_name="label").to(
             self._device
         )
-
-    def init_seed(self):
-        return random.seed(self.seed)
 
     @staticmethod
     def _get_sentences(text):
