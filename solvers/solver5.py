@@ -17,7 +17,6 @@ class Solver(AbstractSolver):
         self.ngram_manager = NgramManager()
         self.w2v = Word2vecProcessor()
         self.common_data = CommonData()
-        self.is_loaded = False
         self.suffixes = {}
         self.paronyms = defaultdict(list)
         self.word2root = {}
