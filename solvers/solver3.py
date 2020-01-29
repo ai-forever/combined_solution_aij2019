@@ -8,7 +8,6 @@ from solvers.solver_helpers import Word2vecProcessor, tokenize, clean, AbstractS
 class Solver(AbstractSolver):
     def __init__(self):
         self.w2v = Word2vecProcessor()
-        self.is_loaded = True
 
     def predict_from_model(self, task):
         try:
