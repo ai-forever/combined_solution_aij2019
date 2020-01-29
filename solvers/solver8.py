@@ -11,7 +11,7 @@ from string import punctuation
 from torch.utils.data import DataLoader
 from transformers.optimization import AdamW, WarmupLinearSchedule
 
-from solvers.torch_utils import (
+from solvers.torch_helpers import (
     ModelTrainer,
     Field,
     BatchCollector,
@@ -22,7 +22,7 @@ from solvers.torch_utils import (
     load_bert,
     load_bert_tokenizer,
 )
-from solvers.utils import fix_spaces
+from solvers.solver_helpers import fix_spaces
 
 _ERRORS = [
     "деепричастный оборот",

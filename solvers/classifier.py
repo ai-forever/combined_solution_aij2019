@@ -4,7 +4,7 @@ from nltk.tokenize.toktok import ToktokTokenizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import LinearSVC
 
-from solvers.utils import AbstractSolver
+from solvers.solver_helpers import AbstractSolver
 from utils import read_config, load_pickle, save_pickle
 
 

@@ -4,7 +4,7 @@ import os
 import random
 import re
 
-from solvers.utils import morph
+from solvers.solver_helpers import morph
 
 
 class Solver(object):

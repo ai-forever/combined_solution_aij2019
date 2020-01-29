@@ -4,7 +4,7 @@ import os
 import random
 import re
 
-from solvers.utils import ALPHABET, morph, standardize_task
+from solvers.solver_helpers import ALPHABET, morph, standardize_task
 from utils import read_config
 
 

@@ -2,7 +2,7 @@
 
 import re
 
-from solvers.utils import morph
+from solvers.solver_helpers import morph
 from utils import read_config
 
 

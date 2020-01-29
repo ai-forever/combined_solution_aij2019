@@ -4,7 +4,7 @@ import json
 import random
 import re
 
-from solvers.utils import AbstractSolver
+from solvers.solver_helpers import AbstractSolver
 
 
 class Solver(AbstractSolver):

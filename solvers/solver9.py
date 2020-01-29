@@ -5,7 +5,7 @@ import os
 import random
 import re
 
-from solvers.utils import standardize_task
+from solvers.solver_helpers import standardize_task
 from utils import read_config, save_config
 
 

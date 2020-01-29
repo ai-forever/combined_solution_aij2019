@@ -4,7 +4,7 @@ import json
 import numpy as np
 import os
 
-from solvers.utils import NgramManager, CommonData, morph, ALPHABET, AbstractSolver
+from solvers.solver_helpers import NgramManager, CommonData, morph, ALPHABET, AbstractSolver
 
 
 class Solver(AbstractSolver):

@@ -2,7 +2,7 @@
 
 import joblib
 import numpy as np
-from solvers.utils import morph
+from solvers.solver_helpers import morph
 import random
 import re
 from catboost import CatBoostClassifier
@@ -10,7 +10,7 @@ from nltk.tokenize.toktok import ToktokTokenizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 
-from solvers.utils import standardize_task
+from solvers.solver_helpers import standardize_task
 
 
 class Solver(object):

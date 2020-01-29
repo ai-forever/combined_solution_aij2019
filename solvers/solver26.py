@@ -11,7 +11,7 @@ from string import punctuation
 from torch.utils.data import DataLoader
 from transformers.optimization import AdamW, WarmupLinearSchedule
 
-from solvers.torch_utils import (
+from solvers.torch_helpers import (
     ModelTrainer,
     BertExample,
     Field,
@@ -23,7 +23,7 @@ from solvers.torch_utils import (
     load_bert,
     load_bert_tokenizer,
 )
-from solvers.utils import singleton
+from solvers.solver_helpers import singleton
 from utils import read_config
 
 

@@ -8,7 +8,7 @@ import pickle
 import re
 from collections import defaultdict
 
-from solvers.utils import NgramManager, morph, Word2vecProcessor, CommonData, ALPHABET, AbstractSolver
+from solvers.solver_helpers import NgramManager, morph, Word2vecProcessor, CommonData, ALPHABET, AbstractSolver
 
 
 class Solver(AbstractSolver):

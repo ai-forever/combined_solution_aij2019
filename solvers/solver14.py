@@ -2,7 +2,7 @@
 
 import random
 import numpy as np
-from solvers.utils import NgramManager, morph
+from solvers.solver_helpers import NgramManager, morph
 
 
 def parse_sentence(e):

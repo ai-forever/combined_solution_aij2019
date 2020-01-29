@@ -5,8 +5,8 @@ import razdel
 import re
 import torch
 
-from solvers.torch_utils import RubertFor13
-from solvers.utils import morph
+from solvers.torch_helpers import RubertFor13
+from solvers.solver_helpers import morph
 
 
 class Together(Exception):

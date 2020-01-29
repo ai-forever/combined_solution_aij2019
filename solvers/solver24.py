@@ -14,7 +14,7 @@ from sklearn.metrics.pairwise import cosine_distances
 from string import punctuation
 
 from utils import load_pickle
-from solvers.utils import Word2vecProcessor, morph, singleton
+from solvers.solver_helpers import Word2vecProcessor, morph, singleton
 
 
 class Solver(object):

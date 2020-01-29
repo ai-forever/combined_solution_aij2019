@@ -12,7 +12,7 @@ from sklearn import pipeline
 from sklearn.metrics import *
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
-from solvers.utils import morph
+from solvers.solver_helpers import morph
 
 
 class Solver(object):

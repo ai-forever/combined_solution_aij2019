@@ -1,7 +1,7 @@
 import random
 import re
 
-from solvers.utils import RubertForMasking, morph
+from solvers.solver_helpers import RubertForMasking, morph
 
 
 class Solver(object):

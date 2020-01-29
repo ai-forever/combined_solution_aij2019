@@ -4,7 +4,7 @@ import re
 from nltk.tokenize import sent_tokenize
 from string import punctuation
 
-from solvers.utils import RubertForMasking, AbstractSolver
+from solvers.solver_helpers import RubertForMasking, AbstractSolver
 
 
 class Solver(AbstractSolver):

@@ -5,7 +5,7 @@ import re
 from nltk.tokenize import ToktokTokenizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from solvers.utils import BertEmbedder, morph, AbstractSolver
+from solvers.solver_helpers import BertEmbedder, morph, AbstractSolver
 
 
 class Solver(AbstractSolver):

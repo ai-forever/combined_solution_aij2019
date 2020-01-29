@@ -2,7 +2,7 @@
 
 import re
 
-from solvers.utils import Word2vecProcessor, tokenize, clean, AbstractSolver
+from solvers.solver_helpers import Word2vecProcessor, tokenize, clean, AbstractSolver
 
 
 class Solver(AbstractSolver):

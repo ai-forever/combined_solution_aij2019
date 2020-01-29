@@ -7,7 +7,7 @@ from nltk.util import ngrams
 from sklearn.metrics.pairwise import cosine_similarity
 from string import punctuation
 
-from solvers.utils import morph, BertEmbedder, AbstractSolver
+from solvers.solver_helpers import morph, BertEmbedder, AbstractSolver
 
 
 class Solver(AbstractSolver):

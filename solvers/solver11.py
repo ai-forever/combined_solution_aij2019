@@ -6,7 +6,7 @@ import random
 import re
 from collections import defaultdict, Counter
 
-from solvers.utils import morph, CommonData, ALPHABET
+from solvers.solver_helpers import morph, CommonData, ALPHABET
 
 
 def clean_with_slot(word):

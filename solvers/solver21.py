@@ -9,7 +9,7 @@ import random
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from solvers.utils import morph
+from solvers.solver_helpers import morph
 from utils import load_pickle, save_pickle
 
 
