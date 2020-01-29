@@ -13,7 +13,6 @@ class Solver(AbstractSolver):
         self.ngram_manager = NgramManager()
         self.common_data = CommonData()
         self.morph = morph
-        self.is_loaded = False
         self.solutions = {}
         self.from_tasks = {}
 
