@@ -8,9 +8,7 @@ from solvers.solver_helpers import AbstractSolver
 
 
 class Solver(AbstractSolver):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed(seed)
+    def __init__(self):
         self.is_loaded = False
 
     def get_prediction(self, variants):
