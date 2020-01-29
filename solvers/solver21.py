@@ -1,29 +1,23 @@
 # Magic City
 
 import json
-import lightgbm as lgb
-import numpy as np
-import os
-import pandas as pd
 import random
 import re
+
+import lightgbm as lgb
+import numpy as np
+import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from solvers.solver_helpers import morph
+from solvers.solver_helpers import morph, AbstractSolver
 from utils import load_pickle, save_pickle
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.seed = seed
-        self.init_seed()
+class Solver(AbstractSolver):
+    def __init__(self):
         self.morph = morph
         self.clf = None
-        self.is_loaded = False
         self.tfidf = TfidfVectorizer(ngram_range=(1, 1), max_features=15)
-
-    def init_seed(self):
-        return random.seed(self.seed)
 
     def fit(self, tasks):
         target_list = []
