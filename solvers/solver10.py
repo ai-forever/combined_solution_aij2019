@@ -1,27 +1,20 @@
 # Idyllium
 
 import os
-import random
 import re
 
-from solvers.solver_helpers import ALPHABET, morph, standardize_task
+from solvers.solver_helpers import ALPHABET, morph, standardize_task, AbstractSolver
 from utils import read_config
 
 
-class Solver(object):
-    def __init__(self, seed=42):
-        self.is_loaded = False
+class Solver(AbstractSolver):
+    def __init__(self):
         self.alphabet = ALPHABET
-        self.seed = seed
-        self.init_seed()
         self.morph = morph
         self.dictionary = None
         self.prefixes = None
         self.int_prefixes = None
         self.universal_prefixes = None
-
-    def init_seed(self):
-        return random.seed(self.seed)
 
     def predict_from_model(self, task):
         task["text"] = re.sub("[^а-яА-яЁё\.\,\! ]|_", "", task["text"])
@@ -145,9 +138,3 @@ class Solver(object):
         self.int_prefixes = model["int_prefixes"]
         self.universal_prefixes = model["universal_prefixes"]
         self.is_loaded = True
-
-    def save(self, path=""):
-        pass
-
-    def fit(self, path=""):
-        pass
