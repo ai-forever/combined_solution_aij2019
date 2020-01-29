@@ -8,14 +8,12 @@ from solvers.solver_helpers import NgramManager, CommonData, morph, ALPHABET, Ab
 
 
 class Solver(AbstractSolver):
-    def __init__(self, seed=42):
+    def __init__(self):
         self.alphabet = ALPHABET
         self.ngram_manager = NgramManager()
         self.common_data = CommonData()
         self.morph = morph
         self.is_loaded = False
-        self.seed = seed
-        self.init_seed(seed)
         self.solutions = {}
         self.from_tasks = {}
 
