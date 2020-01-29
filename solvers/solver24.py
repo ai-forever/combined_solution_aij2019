@@ -30,7 +30,6 @@ class Solver(AbstractSolver):
         self.verbs_dict = None
         self.chasti_rechi = None
         self.set_f_2 = None
-        self.is_loaded = False
 
     def lemmatize(self, text):
         return [
