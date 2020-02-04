@@ -1,10 +1,11 @@
 # AI Journey 2019: Combined Solution
+Русская версия этого документа находится [здесь](README.ru.md).
 
-Комбинация лучших решений топ-20 участников соревнования AI Journey 2019 по каждому заданию. Комбинированное решение набирает 69 баллов по ЕГЭ, русский язык.
+This is a combined solution of AI Journey 2019 challenge. It consists of refactored code of top-20 solutions from the challenge. Its score is 69.
 
-## Банк данных и модели
+## Knowledge base and models
 
-Банк данных AI Journey 2019 содержит данные и материалы, которые могут быть использованы для решения AGI-задач и прикладных NLP-задач:
+Knowledge base of AI Journey 2019 contains data and models, which could be useful for AGI and applied NLP tasks:
 
 * Unified State Exam solving;
 * text summarization;
@@ -17,42 +18,42 @@
 * topic modeling;
 * text classification.
     
-Для скачивания банка данных:
+To download the knowledge base please use:
 
 ```
 python download_data.py
 ```
 
-Каталог ```models``` содержит модели и файлы для решения экзаменационных заданий.
+Directory ```models``` contains models and additional files for solvers of exam tasks.
 
-Для скачивания каталога моделей:
+To download models please use:
 
 ```
 python download_models.py
 ```
 
-## Запуск docker контейнера
+## Running a docker container
 
-Запустить контейнер можно командой:
+You can run a container with:
 ```
 $ sudo docker run -w /workspace -v $(pwd):/workspace -p 8000:8000 -it alenush25/combined_solution_aij:latest python solution.py
 ```
 
-Это поднимет решение, которое представляет собой HTTP-сервер, доступный по порту `8000`, со следующими запросами:
+It will run the container with HTTP-server on port `8000`. It supports the following requests:
 
 #### `GET /ready`
 
-Запрос отвечает кодом `200 OK` в случае, если решение готово к работе. Любой другой код означает, что решение еще не готово.
+The return code will be `200 OK` only if the solution is ready. Any other code means that the solution is not ready.
 
 #### `POST /take_exam`
 
-Запрос на решение экзаменационного билета. Тело запроса — JSON объект экзаменационного билета в формате JSON соревнования (пример можно найти в папке `test_data`)
+It is a request to begin the exam. Body of the request is a JSON object with an instance of exam test in JSON format (a sample JSON could be found in the folder `test_data`).
 
-Запрос отвечает кодом `200 OK` и возвращает JSON-объект с ответами на задания.  
+The solution should response to this request `200 OK` and return a JSON-object with answers to the tasks.  
 
-Запрос и ответ должны иметь `Content-Type: application/json`. Рекомендуется использовать кодировку UTF-8.
+Both the request and the response should have `Content-Type: application/json`. We recommend to use UTF-8 encoding.
 
-Прилагается также аутентичный файл для формата соревнования `metadata.json` следующего содержания:
+We also publish a file `metadata.json` which was used for submission. Its content is below:
 
 ```json
 {
@@ -61,10 +62,11 @@ $ sudo docker run -w /workspace -v $(pwd):/workspace -p 8000:8000 -it alenush25/
 }
 ```
 
-Здесь `image` — поле с названием docker-образа, в котором будет запускаться решение, `entry_point` — команда, при помощи которой запускается решение. Для решения текущей директорией будет являться корень архива.
+Where `image` — a field with docker-image name for the solution image, `entry_point` — a command which runs the solution. 
+As a root directory the root of an archive with solution will be used.
 
-Файл `eval_docker.py` сожержит пример загрузки и обработки JSON вариантов из папки `test_data` в решение.
+A file `eval_docker.py` an example of upload and processing of an exam instance in JSON from the directory `test_data`. It then is sent to the solution
 
-## Описание решений
+## Solution Description
 
-Описание решений и заданий находится [тут](solver_description.md).
+The task and solution description could be found [here](solver_description.md).
